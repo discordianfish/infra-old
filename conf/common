@@ -1,0 +1,10 @@
+export DEIMOS=10.0.130.1
+export PHOBOS=10.0.131.1
+
+export DB_HOST=$DEIMOS
+
+export PNET=`ip addr |awk '/inet 10.0.13/ { print $2 }' | head -1`
+export PIP=`echo $PNET | cut -d/ -f1`
+
+export XNET=`ip addr show eth0 | awk '/inet / { print $2}' | head -1`
+export XIP=`echo $XNET | cut -d/ -f1`

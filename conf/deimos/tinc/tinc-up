@@ -1,0 +1,4 @@
+ip addr add 10.0.130.1/17 dev $INTERFACE
+ip link set $INTERFACE up
+
+ip route add 192.168.178.0/24 via 10.0.130.1

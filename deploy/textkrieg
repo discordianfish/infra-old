@@ -1,0 +1,11 @@
+docker inspect textkrieg_ghost_data || docker run --name textkrieg_ghost_data \
+  --entrypoint true -v /ghost/content fish/ghost:stable -
+
+docker inspect textkrieg_ghost || \
+  docker run --restart=always --name textkrieg_ghost --volumes-from textkrieg_ghost_data -d -p 127.0.0.1:3001:8080 \
+  -e URL=http://textkrieg.de \
+  -e DATABASE_URL=pg://textkrieg_ghost:$DB_PASS_TEXTKRIEG_GHOST@$DB_HOST/textkrieg_ghost \
+  fish/ghost:stable
+#  -e MAIL_SERVICE=Mailgun \
+#  -e MAIL_USER=...
+#  -e MAIL_PASS=...

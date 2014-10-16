@@ -1,0 +1,6 @@
+docker inspect pdns-server || \
+  docker run --restart=always -d --name pdns-server -p $XIP:53:53 -p $XIP:53:53/udp \
+  fish/powerdns-docker \
+  --no-config --master --daemon=no --local-address=0.0.0.0 --allow-axfr-ips=$PNET \
+  --launch=gpgsql --gpgsql-host=$DB_HOST --gpgsql-user=pdns \
+  --gpgsql-dbname=pdns --gpgsql-password=$DB_PASS_PDNS

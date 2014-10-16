@@ -1,0 +1,6 @@
+#!/bin/sh
+
+docker build -t 5pi_nginx universe/nginx
+docker inspect nginx-data   || docker run --name nginx-data --volume /www busybox true
+docker inspect nginx-server || docker run --restart=always --name nginx-server -d --net=host --volumes-from nginx-data 5pi_nginx
+#docker inspect nginx-server || docker run --restart=always --name nginx-server -d -p 80:80 -p 443:443 --volumes-from nginx-data 5pi_nginx

@@ -1,0 +1,8 @@
+set -x
+docker build -t tinc universe/tinc
+docker inspect tinc-data || docker run --name tinc-data --volume /tinc --entrypoint true tinc -
+VOLUME=`docker inspect tinc-data | jq -r '.[].Volumes["/tinc"]'`
+
+cp conf/$HOST/tinc/* $VOLUME/
+
+docker inspect tincd  || docker run --restart=always -d --name tincd --net=host --privileged --volumes-from tinc-data tinc

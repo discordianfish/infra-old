@@ -1,0 +1,18 @@
+set -x
+docker inspect pg-data   || docker run --name pg-data --volume /var/lib/postgresql/data --entrypoint true postgres -
+docker inspect pg-server || docker run --restart=always --name pg-server -d --volumes-from pg-data -p $PIP:5432:5432 -e LC_ALL=C.UTF-8  postgres
+
+cat <<EOF | docker run -it --link pg-server:postgres --rm postgres sh -c 'exec psql -h "$POSTGRES_PORT_5432_TCP_ADDR" -p "$POSTGRES_PORT_5432_TCP_PORT" -U postgres'
+CREATE USER textkrieg_ghost WITH PASSWORD '$DB_PASS_TEXTKRIEG_GHOST';
+CREATE DATABASE textkrieg_ghost;
+GRANT ALL PRIVILEGES ON DATABASE textkrieg_ghost to textkrieg_ghost;
+
+CREATE USER fish_ghost WITH PASSWORD '$DB_PASS_FISH_GHOST';
+CREATE DATABASE fish_ghost;
+GRANT ALL PRIVILEGES ON DATABASE fish_ghost to fish_ghost;
+
+CREATE USER pdns WITH PASSWORD '$DB_PASS_PDNS';
+CREATE DATABASE pdns;
+GRANT ALL PRIVILEGES ON DATABASE pdns to pdns;
+\q
+EOF

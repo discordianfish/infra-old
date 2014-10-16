@@ -1,0 +1,6 @@
+docker build -t prometheus universe/prometheus
+docker inspect prometheus-data   || docker run -v /prometheus --name prometheus-data busybox true
+docker inspect prometheus-server || docker run --restart=always -d --name prometheus-server --volumes-from prometheus-data -p 10.0.130.1:8000:9090 prometheus
+
+docker inspect node-exporter   || docker run --restart=always -d --name node-exporter --net=host fish/node-exporter -listen 10.0.130.1:8010
+docker inspect docker-exporter || docker run --restart=always -d --name docker-exporter -p 10.0.130.1:8011:8080 -v /sys/fs/cgroup/blkio/:/cgroup/blkio -v /sys/fs/cgroup/memory:/cgroup/memory -v /sys/fs/cgroup/cpuacct/:/cgroup/cpuacct -v /var/run/docker.sock:/docker.sock fish/docker-exporter

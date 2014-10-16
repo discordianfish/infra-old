@@ -1,0 +1,8 @@
+docker inspect fish_ghost_data || docker run --name fish_ghost_data \
+  --entrypoint true -v /ghost/content fish/ghost:stable -
+
+docker inspect fish_ghost || \
+  docker run --restart=always --name fish_ghost --volumes-from fish_ghost_data -d -p 127.0.0.1:3002:8080 \
+  -e URL=http://5pi.de:3002 \
+  -e DATABASE_URL=pg://fish_ghost:$DB_PASS_FISH_GHOST@$DB_HOST/fish_ghost \
+  fish/ghost:stable
