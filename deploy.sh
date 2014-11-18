@@ -1,7 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 set -x
 set -e
-. conf/*
+for f in conf/*
+do
+  test -d $f && continue
+  source $f
+done
+
 export HOST=`hostname`
 
 if [ ! -e "hosts/$HOST" ]
