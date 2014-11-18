@@ -1,3 +1,3 @@
 docker inspect sab-data || docker run --name sab-data -v /sab --entrypoint true fish/sabnzbd
-docker inspect sab      || docker run --name sab -d --volumes-from sab-data --net=host --entrypoint python fish/sabnzbd /sabnzb/SABnzbd.py -s $PIP:8080
+docker inspect sab      || docker run --name sab -d --volumes-from sab-data -v /s3:/s3 --net=host --entrypoint python fish/sabnzbd /sabnzb/SABnzbd.py -s $PIP:8080
 #docker inspect sab      || docker run --name sab -d --volumes-from sab-data -p $PIP:8080:8080 -p 127.0.0.1:8080:8080 fish/sabnzbd
