@@ -8,8 +8,15 @@ RUN wget -O /tmp/plex.deb $URL && dpkg -i /tmp/plex.deb; apt-get -qyf install; r
 
 RUN mkdir /usr/lib/plexmediaserver/Library && chown plex:plex /usr/lib/plexmediaserver/Library
 VOLUME /usr/lib/plexmediaserver/Library
-USER plex
-ENV LD_LIBRARY_PATH /usr/lib/plexmediaserver
-WORKDIR /usr/lib/plexmediaserver
-ENTRYPOINT [ "/usr/lib/plexmediaserver/Plex Media Server" ]
+
+RUN curl -L https://github.com/docker-infra/reefer/releases/download/v0.0.3/reefer.gz | \
+    gunzip > /usr/bin/reefer && chmod a+x /usr/bin/reefer
+
+ADD run /
+ADD authinfo2.tmpl /var/lib/plexmediaserver/.s3ql/
 EXPOSE 32400
+
+ENTRYPOINT [ "reefer", \
+  "-t", "/var/lib/plexmediaserver/.s3ql/authinfo2.tmpl", \
+  "/run"
+]

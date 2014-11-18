@@ -1,0 +1,5 @@
+#!/bin/sh
+
+export LD_LIBRARY_PATH /usr/lib/plexmediaserver
+cd /usr/lib/plexmediaserver
+exec su -c "/usr/lib/plexmediaserver/Plex Media Server" plex
