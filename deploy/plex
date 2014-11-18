@@ -1,0 +1,7 @@
+set -x
+docker inspect plex-data || docker run -v /var/lib/plexmediaserver/ --name plex-data --entrypoint true plex -
+docker build -t plex universe/plex
+docker inspect plex-server || docker run \
+	--name plex-server -d -p 32400:32400 --privileged \
+	--volumes-from=plex-data -v /s3:/s3 \
+	plex
