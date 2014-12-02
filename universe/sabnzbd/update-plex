@@ -13,4 +13,10 @@ then
   exit 1
 fi
 
+if [ -n "$PLEX_PORT_32400_TCP_ADDR" ]
+  PLEX="$PLEX_PORT_32400_TCP_ADDR:$PLEX_PORT_32400_TCP_PORT"
+else
+  PLEX="http://127.0.0.1:32400"
+fi
+
 wget -q --delete-after "http://$PLEX_PORT_32400_TCP_ADDR:$PLEX_PORT_32400_TCP_PORT/library/sections/$section/refresh" > /dev/null

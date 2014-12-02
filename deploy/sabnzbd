@@ -1,4 +1,6 @@
 docker build -t sabnzbd universe/sabnzbd
 docker inspect sab-data || docker run --name sab-data -v /sab --entrypoint true fish/sabnzbd
-docker inspect sab      || docker run --name sab -d --link plex-server:plex --volumes-from sab-data -v /s3:/s3 -p $PIP:8080:8080 -p 127.0.0.1:8080:8080 sabnzbd
-#docker inspect sab      || docker run --name sab -d --volumes-from sab-data -v /s3:/s3 --net=host --entrypoint python sabnzbd /sabnzb/SABnzbd.py -s $PIP:8080
+#docker inspect sab      || docker run --name sab -d --link plex-server:plex --volumes-from sab-data -v /s3:/s3 -p $PIP:8080:8080 -p 127.0.0.1:8080:8080 sabnzbd
+
+# Using hostnetworking because docker doesn't support ipv6 :(
+docker inspect sab      || docker run --name sab -d --volumes-from sab-data -v /s3:/s3 --net=host --entrypoint python sabnzbd /sabnzb/SABnzbd.py -s $PIP:8080
