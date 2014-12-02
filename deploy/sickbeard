@@ -1,0 +1,3 @@
+docker build -t sickbeard universe/sickbeard
+docker inspect sickbeard-data   || docker run    --name sickbeard-data -v /data busybox true
+docker inspect sickbeard-server || docker run -d --name sickbeard-server --link plex-server:plex --volumes-from sickbeard-data -p $PIP:8081:8081 sickbeard

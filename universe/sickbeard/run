@@ -1,0 +1,4 @@
+#!/bin/sh
+
+sed -i "s/^plex_server_host = .*\$/plex_server_host = $PLEX_PORT_32400_TCP_ADDR:$PLEX_PORT_32400_TCP_PORT/" /data/config.ini
+exec python /sickbeard/SickBeard.py --datadir=/data
