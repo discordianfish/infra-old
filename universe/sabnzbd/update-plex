@@ -1,0 +1,16 @@
+#!/bin/bash
+
+CAT=$5
+
+section=$(echo '1=movies
+3=music
+4=photo
+2=tv' |grep "=$CAT\$" |cut -d= -f1)
+
+if [ -z "$section" ]
+then
+  echo "Section $CAT unknown"
+  exit 1
+fi
+
+wget -q --delete-after "http://$PLEX_PORT_32400_TCP_ADDR:$PLEX_PORT_32400_TCP_PORT/library/sections/$section/refresh" > /dev/null
