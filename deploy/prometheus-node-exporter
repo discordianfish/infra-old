@@ -1,0 +1,2 @@
+docker inspect prometheus-node-exporter || \
+	docker run -d --name prometheus-node-exporter -p $PIP:9100:9100 prom/node-exporter

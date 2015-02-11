@@ -1,0 +1,4 @@
+docker inspect prometheus-container-exporter || \
+	docker run -d --name prometheus-container-exporter \
+	-v /sys/fs/cgroup:/cgroup -v /var/run/docker.sock:/var/run/docker.sock \
+	-p $PIP:9104:9104 prom/container-exporter
