@@ -3,5 +3,7 @@ docker inspect consul-data || docker run --name consul-data --volume /data busyb
 
 docker inspect consul || \
   docker run --restart=always -d --name consul \
+    -p $PIP:8300:8300 -p $PIP:8301:8301 -p $PIP:8301:8301/udp -p $PIP:8302:8302 \
+    -p $PIP:8302:8302/udp -p $PIP:8400:8400 -p $PIP:8500:8500 -p 127.0.0.1:53:53/udp -p 127.0.0.1:53:53 \
     --volumes-from consul-data progrium/consul \
     -server -bootstrap-expect 3 -advertise $PIP -retry-join consul.int.5pi.de
