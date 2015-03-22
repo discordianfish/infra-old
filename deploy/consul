@@ -1,0 +1,7 @@
+set -x
+docker inspect consul-data || docker run --name consul-data --volume /data busybox true
+
+docker inspect consul || \
+  docker run --restart=always -d --name consul \
+    --volumes-from consul-data progrium/consul \
+    -server -bootstrap-expect 3 -advertise $PIP -retry-join consul.int.5pi.de
