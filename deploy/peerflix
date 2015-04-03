@@ -1,0 +1,2 @@
+docker inspect peerflix || \
+	docker run -d --name peerflix -p $PIP:9000:9000 fish/peerflix-server
